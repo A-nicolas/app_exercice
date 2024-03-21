@@ -19,6 +19,10 @@ client = InsecureClient('http://localhost:9870', user='hadoop')
 # Chemin de destination dans HDFS
 hdfs_destination = "/data/upload/"
 
+# Table de stockage des données
+hive_table = "feedback_data_v1"
+orc_table = "feedback_data_v2"
+
 # Fonction pour envoyer le fichier JSON vers HDFS
 def send_to_hdfs(file_content, file_name):
     try:
@@ -33,10 +37,11 @@ def send_to_hdfs(file_content, file_name):
 def load_data_to_hive(file_name):
     try:
         # Exécuter une requête Hive pour charger le fichier JSON dans la table
-        hive_conn.cursor().execute(f"LOAD DATA INPATH '{hdfs_destination}' INTO TABLE feedback_data_v1")
+        hive_conn.cursor().execute(f"LOAD DATA INPATH '{hdfs_destination}' INTO TABLE {hive_table}")
         print(f"Données du fichier JSON '{file_name}' chargées avec succès dans Hive.")
     except Exception as e:
         print(f"Erreur lors du chargement des données JSON dans Hive : {e}")
+
 
 # Route pour soumettre un feedback
 @app.route('/api/feedback', methods=['POST'])
@@ -74,7 +79,7 @@ def submit_feedback():
 def get_feedbacks():
     # Exécuter une requête Hive pour récupérer les feedbacks
     cursor = hive_conn.cursor()
-    cursor.execute("SELECT * FROM feedback_data_v1")
+    cursor.execute(f"SELECT * FROM {hive_table}")
     results = cursor.fetchall()
 
     # Convertir les résultats en JSON
@@ -99,7 +104,7 @@ def get_feedback_by_id(feedback_id):
 
     # Exécuter une requête Hive pour récupérer le feedback
     cursor = hive_conn.cursor()
-    cursor.execute(f"SELECT * FROM feedback_data_v1 WHERE unique_id = '{feedback_id}'")
+    cursor.execute(f"SELECT * FROM {hive_table} WHERE unique_id = '{feedback_id}'")
 
     # Vérifier si le feedback existe
     if cursor.rowcount == 0:
@@ -131,7 +136,7 @@ def update_feedback(feedback_id):
     # Exécuter une requête Hive pour mettre à jour le feedback
     cursor = hive_conn.cursor()
     cursor.execute(f"""
-        UPDATE feedback_data_v1
+        UPDATE {hive_table}
         SET bootcampname = '{data['bootcampname']}',
             prioriteRetour = '{data['prioriteRetour']}',
             typeRetour = '{data['typeRetour']}',
@@ -154,14 +159,13 @@ def delete_feedback(feedback_id):
 
     # Exécuter une requête Hive pour supprimer le feedback
     cursor = hive_conn.cursor()
-    cursor.execute(f"DELETE FROM feedback_data_v1 WHERE unique_id = '{feedback_id}'")
+    cursor.execute(f"DELETE FROM {hive_table} WHERE unique_id = '{feedback_id}'")
 
     # Vérifier si le feedback a été supprimé
     if cursor.rowcount == 0:
         return jsonify({'error': 'Feedback introuvable'}), 404
 
     return jsonify({'message': 'Feedback supprimé avec succès'})
-
 
 if __name__ == '__main__':
     app.run(debug=True)
