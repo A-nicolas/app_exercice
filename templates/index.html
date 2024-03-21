@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulaire de retour</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
 </head>
 <body>
     <form id="feedback-form">
-        <img src="logolp.png" id="logo" />
+        <img src="{{ url_for('static', filename='css/logolp.png') }}" id="logo" />
         <h2>Votre retour sur la formation</h2>
         <div class="form-group">
             <label for="bootcampname">Nom du bootcamp :</label>
@@ -72,5 +72,5 @@
         <button type="submit">Soumettre</button>
     </form>
 </body>
-<script src="script.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </html>

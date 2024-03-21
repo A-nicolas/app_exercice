@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Feedbacks</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
@@ -16,6 +16,6 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='js/script_backend.js') }}"></script>
 </body>
 </html>

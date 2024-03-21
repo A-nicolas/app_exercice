@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import json
 import os
@@ -19,7 +19,7 @@ client = InsecureClient('http://localhost:9870', user='hadoop')
 # Chemin de destination dans HDFS
 hdfs_destination = "/data/upload/"
 
-# Table de stockage des données
+# Table de stockage des données 
 hive_table = "feedback_data_v1"
 orc_table = "feedback_data_v2"
 
@@ -42,6 +42,13 @@ def load_data_to_hive(file_name):
     except Exception as e:
         print(f"Erreur lors du chargement des données JSON dans Hive : {e}")
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/backend')
+def backend():
+    return render_template('backend.html')
 
 # Route pour soumettre un feedback
 @app.route('/api/feedback', methods=['POST'])
