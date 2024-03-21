@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
 
         const formData = new FormData(form);
+        formData.set("consentement", document.getElementById("consentement").checked);
         const jsonData = {};
 
         // Convertir les données du formulaire en JSON
