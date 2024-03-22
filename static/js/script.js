@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const formData = new FormData(form);
         formData.set("consentement", document.getElementById("consentement").checked);
+
         const jsonData = {};
 
         // Convertir les données du formulaire en JSON
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (!response.ok) {
                 throw new Error('Erreur lors de l\'envoi des données');
             }
+            alert("Données envoyées avec succès au script python")
             console.log('Données envoyées avec succès au script python');
         })
         .catch(error => console.error('Erreur:', error));

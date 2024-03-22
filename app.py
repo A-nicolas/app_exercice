@@ -32,6 +32,7 @@ def send_to_hdfs(file_content, file_name):
     except Exception as e:
         print(f"Erreur lors de l'envoi du fichier JSON vers Hadoop : {e}")
 
+
 # Fonction pour charger les données JSON dans Hive
 def load_data_to_hive(file_name):
     try:

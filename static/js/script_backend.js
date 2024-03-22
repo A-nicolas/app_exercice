@@ -13,9 +13,11 @@ $(document).ready(function() {
                             <strong>Priorité de retour:</strong> ${feedback.prioriteRetour}<br>
                             <strong>Type de retour:</strong> ${feedback.typeRetour}<br>
                             <strong>Évaluation:</strong> ${feedback.rating}<br>
+                            <strong>Date:</strong> ${feedback.date_feedback}<br>
                             <strong>Commentaires:</strong> ${feedback.comments}<br>
                             <button onclick="editFeedback('${feedback.unique_id}')">Modifier</button>
                             <button onclick="deleteFeedback('${feedback.unique_id}')">Supprimer</button>
+                            <br><br>
                         </li>
                     `);
                 });
