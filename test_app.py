@@ -2,6 +2,8 @@ import pytest
 from flask import json
 from app import app
 
+feedback_id = "e0e491b0-d01e-4be3-b3c7-14aee3eed0c3"
+
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
@@ -30,12 +32,11 @@ def test_get_feedbacks(client):
     assert isinstance(response.json, list)
 
 def test_get_feedback_by_id(client):
-    response = client.get('/api/feedback/ff80cb97-fe16-4de9-b3df-95d56f0f132b')
+    response = client.get(f'/api/feedback/{feedback_id}')
     assert response.status_code == 200
     assert isinstance(response.json, dict)
 
 def test_update_feedback(client):
-    feedback_id = 'ff80cb97-fe16-4de9-b3df-95d56f0f132b'
     data = {
         'bootcampname': 'Updated Bootcamp',
         'prioriteRetour': 'Moyenne',
@@ -51,7 +52,6 @@ def test_update_feedback(client):
     assert response.json == {'message': 'Feedback mis à jour avec succès'}
 
 def test_delete_feedback(client):
-    feedback_id = 'ff80cb97-fe16-4de9-b3df-95d56f0f132b'
     response = client.delete(f'/api/feedback/{feedback_id}')
     assert response.status_code == 200
     assert response.json == {'message': 'Feedback supprimé avec succès'}

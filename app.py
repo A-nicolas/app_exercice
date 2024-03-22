@@ -20,7 +20,7 @@ client = InsecureClient('http://localhost:9870', user='hadoop')
 hdfs_destination = "/data/upload/"
 
 # Table de stockage des données 
-hive_table = "feedback_data_v3"
+hive_table = "feedback_data_v4"
 
 # Fonction pour envoyer le fichier JSON vers HDFS
 def send_to_hdfs(file_content, file_name):
@@ -42,6 +42,7 @@ def load_data_to_hive(file_name):
     except Exception as e:
         print(f"Erreur lors du chargement des données JSON dans Hive : {e}")
 
+# zzz Obsolète
 def load_data_to_hive_v3(data):
     try:
         hive_conn.cursor().execute(f"INSERT INTO {hive_table} VALUES ('{data['unique_id']}','{data['bootcampname']}', '{data['prioriteRetour']}', '{data['typeRetour']}', '{data['date_feedback']}', {data['rating']}, '{data['comments']}', '{data['attachedfiles']}', {data['consentement']}, {False})")
@@ -49,6 +50,7 @@ def load_data_to_hive_v3(data):
         return "Feedback submitted successfully", 200
     except Exception as e:
         return str(e), 500
+
 
 @app.route('/')
 def home():
@@ -80,13 +82,14 @@ def submit_feedback():
 
     # Ajouter l'identifiant unique aux données
     data['unique_id'] = unique_id
+    data['is_deleted'] = False
 
     # Envoyer les données JSON vers HDFS
     send_to_hdfs(json.dumps(data), file_name)
 
     # Charger les données JSON dans Hive
-    #load_data_to_hive(file_name)
-    load_data_to_hive_v3(data)
+    load_data_to_hive(file_name)
+    #load_data_to_hive_v3(data)
 
     return jsonify({'message': 'Données envoyées avec succès'})
 
