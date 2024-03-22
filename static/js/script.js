@@ -1,4 +1,5 @@
-document.getElementById('date_feedback').value = new Date().toLocaleDateString("fr");
+document.getElementById('date_feedback').value = new Date().toLocaleString("fr");
+document.getElementById('date_feedback_affichage').value = new Date().toLocaleDateString("fr");
 const value = document.querySelector("#ratingvalue");
 const input = document.querySelector("#rating");
 value.textContent = input.value;
