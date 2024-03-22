@@ -20,7 +20,7 @@ client = InsecureClient('http://localhost:9870', user='hadoop')
 hdfs_destination = "/data/upload/"
 
 # Table de stockage des données 
-hive_table = "feedback_data_v2"
+hive_table = "feedback_data_v4"
 
 # Fonction pour envoyer le fichier JSON vers HDFS
 def send_to_hdfs(file_content, file_name):
