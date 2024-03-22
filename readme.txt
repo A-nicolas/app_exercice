@@ -1,3 +1,5 @@
+Table HIVE :
+
 CREATE TABLE IF NOT EXISTS feedback_data_v2 (
 	unique_id STRING,
     bootcampname STRING,
